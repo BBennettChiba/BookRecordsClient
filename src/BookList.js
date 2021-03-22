@@ -10,10 +10,12 @@ export default function BookList({user}) {
         async function call () {
             const books = await fetch('http://localhost:4000/' + user + '/books', header).then(res=>res.json());
             const temp = []
+            console.log(books);
             for (let book of books){
                 console.log(book.isbn);
                 temp.push(<Book info={book.isbn}/>)
             }
+            console.log(temp);
             setBookList(temp);
         }
         call();

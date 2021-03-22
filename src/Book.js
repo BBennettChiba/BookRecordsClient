@@ -1,7 +1,9 @@
 import {useEffect, useState} from 'react'
 
 export default function Book({info}) {
-    const [thisBook, setThisBook] = useState({})
+    const [thisBook, setThisBook] = useState([])
+    const [thisImg, setThisImg] = useState('')
+    const [thisAuthor, setThisAuthor] = useState([])
     useEffect(()=> {
         async function APIcall (){
             console.log(info);
@@ -9,6 +11,8 @@ export default function Book({info}) {
             fetch(`https://www.googleapis.com/books/v1/volumes?q=isbn:${info}`)//&key=AIzaSyDVFsYvujIZ4F2up2VWFu5MXvahYaeRUXA
             .then(res=> res.json())
             let book = googleBook.items[0].volumeInfo;
+            setThisImg(<img src={book.imageLinks.thumbnail} alt={book.title}/>)
+            setThisAuthor(book.authors);
             console.log(book);
             setThisBook(book)
         }
@@ -16,8 +20,10 @@ export default function Book({info}) {
     }, [])
 
     return (
-        <div>
-            {thisBook}
-        </div>
+        <>
+        <div>Title {thisBook.title}</div>
+        <div>Author {thisAuthor}</div>
+        {thisImg}
+        </>
     )
 }
