@@ -1,49 +1,43 @@
-import { useState } from "react";
 import BarcodeScannerComponent from "react-webcam-barcode-scanner";
+import {useState} from 'react'
 
-export default function Scan({ user }) {
-  const [data, setData] = useState(0);
-
-  async function addBook() {
-    const book = document.getElementById("isbn").value;
-    const req = await fetch(
-      "https://book-recorder-backend.herokuapp.com/book",
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ user, book }),
-      }
-    ).then((res) => res.json());
-    console.log(req);
-  }
+export default function Scan({ user, newUpload, setNewUpload }) {
+  const [videoIsShown, setVideoIsShown] = useState(false)
   async function successfulRead(err, result) {
     if (result !== undefined && result.text.length === 13) {
       const isbn = result.text;
-      console.log(isbn);
-      const googleReq = await fetch(`https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}`).then(res=>res.json())
-      if (googleReq.data.totalItems === 0) return;
+      if (!isRealISBN(isbn)) return
       let req = await fetch(
-        "https://book-recorder-backend.herokuapp.com/book",
+        process.env.REACT_APP_URL + "/book",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ user, book: isbn }),
         }
-      ).then((res) => res.json());
-      console.log(req);
+      ).then((res) =>{
+        console.log(res)
+        if(res.status === 400){
+          window.alert('That book is probably already registered')
+          return;
+        }
+        res.json();
+      }) 
+      setNewUpload(!newUpload)
     }
+  }
+
+  function isRealISBN(num){
+    return num.split('').map((v,i)=> i%2!==0 ? +v*3 : +v).reduce((a,c)=>a+=c) % 10 === 0;
   }
 
   return (
     <div>
-      <input type="text" id="isbn"></input>ISBN
-      <button onClick={addBook}>SCAN</button>
-      <BarcodeScannerComponent
+      <button onClick={()=> {setVideoIsShown(!videoIsShown)}}>SCAN</button>
+      {videoIsShown && <BarcodeScannerComponent
         width={200}
         height={200}
         onUpdate={successfulRead}
-      />
-      <p>{data}</p>
+      />}
     </div>
   );
 }

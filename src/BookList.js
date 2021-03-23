@@ -1,25 +1,21 @@
 import {useState, useEffect} from 'react'
 import Book from './Book';
 
-export default function BookList({user}) {
+export default function BookList({user, newUpload}) {
     const [bookList, setBookList] = useState([])
-    // const bookComponents = [];
-    const header = {headers: {'Content-Type': "application/json"}}
-
+    
     useEffect(()=>{
+        const header = {headers: {'Content-Type': "application/json"}}
         async function call () {
-            const books = await fetch('http://localhost:4000/' + user + '/books', header).then(res=>res.json());
+            const books = await fetch(process.env.REACT_APP_URL + '/' + user + '/books', header).then(res=>res.json());
             const temp = []
-            console.log(books);
             for (let book of books){
-                console.log(book.isbn);
-                temp.push(<Book info={book.isbn}/>)
+                temp.push(<Book info={book.isbn} key={book.id}/>)
             }
-            console.log(temp);
             setBookList(temp);
         }
         call();
-    }, [])
+    }, [newUpload, user])
     return (
         <div>
             {bookList}

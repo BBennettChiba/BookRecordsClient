@@ -7,18 +7,18 @@ export default function Book({info}) {
     
     useEffect(()=> {
         async function APIcall (){
-            console.log(info);
             const googleBook = await 
-            fetch(`https://www.googleapis.com/books/v1/volumes?q=isbn:${info}`)
+            fetch(`https://www.googleapis.com/books/v1/volumes?q=isbn:${info}&key=` + process.env.REACT_APP_GOOGLE_KEY)
             .then(res=> res.json())
+            console.log(googleBook);
+            console.log(info);
             let book = googleBook.items[0].volumeInfo;
             setThisImg(<img src={book.imageLinks.thumbnail} alt={book.title}/>)
             setThisAuthor(book.authors);
-            console.log(book);
             setThisBook(book)
         }
         APIcall()
-    }, [])
+    }, [info])
 
     return (
         <>

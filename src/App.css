@@ -1,0 +1,26 @@
+.login {
+    width: 300px;
+    height: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: cadetblue;
+    /* justify-self: center; */
+    /* align-self: center; */
+  }
+
+.realLogin {
+    /* background-color: blue; */
+}
+.App {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.signupButton {
+    justify-self: space-around;
+    display: flex;
+    align-self: flex-end;
+}
