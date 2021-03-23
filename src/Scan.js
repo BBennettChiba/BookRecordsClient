@@ -4,18 +4,20 @@ import axios from "axios";
 
 export default function Scan({ user, newUpload, setNewUpload }) {
   const [videoIsShown, setVideoIsShown] = useState(false);
+  
   async function successfulRead(err, result) {
     if (result !== undefined && result.text.length === 13) {
       const isbn = result.text;
       if (!isRealISBN(isbn)) return;
-      let req = await axios.post(`${process.env.REACT_APP_URL}/book`, {
-        user,
-        book: isbn,
-      });
-      if (req.status === 400){
-        window.alert("That book is probably already registered");
+      let books = await axios.get(`${process.env.REACT_APP_URL}/${user}/books`)
+      if (books.data.map(a=>a.isbn).includes(isbn)) {
+        window.alert('book already registered');
         return;
       }
+      await axios.post(`${process.env.REACT_APP_URL}/book`, {
+        user,
+        book: isbn,
+      })
       setNewUpload(!newUpload);
     }
   }
@@ -33,7 +35,7 @@ export default function Scan({ user, newUpload, setNewUpload }) {
   }
 
   return (
-    <div>
+    <div className="scan">
       <button
         onClick={() => {
           setVideoIsShown(!videoIsShown);

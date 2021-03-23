@@ -17,7 +17,7 @@ export default function BookList({user, newUpload}) {
         call();
     }, [newUpload, user])
     return (
-        <div>
+        <div className="bookList">
             {bookList}
         </div>
     )

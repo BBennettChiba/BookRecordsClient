@@ -14,7 +14,7 @@ function App() {
     <div className="App">
       {!loggedIn && <Login user={user} setUser={setUser} loggedIn={loggedIn} setloggedIn={setloggedIn}/>}
       {loggedIn && <Scan user={user} newUpload={newUpload} setNewUpload={setNewUpload}/>}
-      {loggedIn && <BookList user={user} newUpload={newUpload}/>}
+      {loggedIn && <BookList user={user} newUpload={newUpload} ></BookList>}
     </div>
   );
 }

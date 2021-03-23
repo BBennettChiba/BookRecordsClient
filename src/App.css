@@ -5,22 +5,46 @@
     justify-content: center;
     align-items: center;
     background-color: cadetblue;
-    /* justify-self: center; */
-    /* align-self: center; */
+    justify-self: center;
+    align-self: center;
   }
 
-.realLogin {
-    /* background-color: blue; */
-}
-.App {
+/* .realLogin {
+    background-color: blue;
+} */
+/* .App {
     height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-}
+} */
 
 .signupButton {
     justify-self: space-around;
     display: flex;
     align-self: flex-end;
+}
+
+.bookList{
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+
+}
+
+.book {
+    width: 15%;
+    height: 30%;
+    border:rgb(0, 0, 0);
+    display: flex;
+    border-style: solid;
+    align-items: center;
+    justify-content: center;
+}
+
+.scan {
+    width: 100vh;
+    display: flex;
+    justify-content: center;
 }
