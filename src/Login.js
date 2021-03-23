@@ -1,35 +1,22 @@
 import {useState} from "react";
 import './App.css'
+import axios from 'axios';
 
 export default function Login({ user, setUser, loggedIn, setloggedIn }) {
-  const postHeader = {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-  };
   const [signupIsClicked, setsignupIsClicked] = useState(false)
 
   const handleSignIn = async () => {
-    let request = postHeader;
     let lastName = document.getElementById("last").value;
     let firstName = document.getElementById("first").value;
     let username = document.getElementById("username").value;
     let password = document.getElementById("password").value;
-    let body = { lastName, firstName, password, username };
-    request.body = JSON.stringify(body);
-    await fetch(
-      process.env.REACT_APP_URL + "/user",
-      request
-    );
+    await axios.post(`${process.env.REACT_APP_URL}/user`, {lastName,firstName,username,password})
     setsignupIsClicked(false)
   };
   const handleLogin = async () => {
-    let request = postHeader;
     let username = document.getElementById("Lusername").value;
     let password = document.getElementById("Lpassword").value;
-    let body = JSON.stringify({ username, password });
-    request.body = body;
-    const login = await fetch(process.env.REACT_APP_URL + "/login", request);
-    console.log(login)
+    const login = await axios.post(process.env.REACT_APP_URL + "/login", {username,password});
     if (login.status === 200) {
       setUser(username);
       setloggedIn(true);
