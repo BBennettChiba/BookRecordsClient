@@ -17,7 +17,7 @@ function App() {
     let password = document.getElementById('password').value
     let body = {lastName, firstName, password, username}
     request.body = JSON.stringify(body);
-    const authenticate = await fetch('http://localhost:4000/user', request)
+    const authenticate = await fetch('https://book-recorder-backend.herokuapp.com/user', request)
     console.log(authenticate);
   }
   const handleLogin = async () =>{
@@ -26,7 +26,7 @@ function App() {
     let password = document.getElementById('Lpassword').value
     let body = JSON.stringify({username, password})
     request.body = body;
-    const login = await fetch('http://localhost:4000/login', request)
+    const login = await fetch('https://book-recorder-backend.herokuapp.com/login', request)
     console.log(login.status);
     if (login.status === 200) {
       setUser(username);
