@@ -1,33 +1,31 @@
-import { useState} from "react";
+import { useState } from "react";
 import axios from "axios";
-import BarcodeScannerComponent from 'react-webcam-barcode-scanner';
+import BarcodeScannerComponent from "react-webcam-barcode-scanner";
 
 export default function Scan({ user, newUpload, setNewUpload }) {
   const [videoIsShown, setVideoIsShown] = useState(false);
-  const [ data, setData ] = useState(null);
-
 
   async function successfulRead(err, result) {
-    if(result === undefined) return 
+    if (result === undefined) return;
     if (result !== undefined && result.text.length === 13) {
       const isbn = result.text;
       if (!isRealISBN(isbn)) return;
-      let books = await axios.get(`${process.env.REACT_APP_URL}/${user}/books`)
-      if (books.data.map(a=>a.isbn).includes(isbn)) {
-        window.alert('book already registered');
+      let books = await axios.get(`${process.env.REACT_APP_URL}/${user}/books`);
+      if (books.data.map((a) => a.isbn).includes(isbn)) {
+        window.alert("book already registered");
         return;
       }
       await axios.post(`${process.env.REACT_APP_URL}/book`, {
         user,
         book: isbn,
-      })
+      });
       setNewUpload(!newUpload);
-      setVideoIsShown(false)
+      setVideoIsShown(false);
     }
   }
 
   function isRealISBN(num) {
-    if(!num.startsWith('978')) return false;
+    if (!num.startsWith("978")) return false;
     return (
       num
         .split("")
@@ -39,19 +37,26 @@ export default function Scan({ user, newUpload, setNewUpload }) {
   }
 
   return (
-    <div className="scan">
-      <button
-        onClick={() => {
-          setVideoIsShown(!videoIsShown);
-        }}
-      >
-        SCAN
-      </button>
-      {videoIsShown && <BarcodeScannerComponent
-        width={200}
-        height={200}
-        onUpdate={successfulRead}
-      />}
-    </div>
+    <>
+      <div className="scan">
+        <button
+          onClick={() => {
+            setVideoIsShown(!videoIsShown);
+          }}
+        >
+          SCAN
+        </button>
+      </div>
+      <div className="scan">
+        {videoIsShown && (
+          <BarcodeScannerComponent
+            width={200}
+            height={200}
+            onUpdate={successfulRead}
+            className="scanner"
+          />
+        )}
+      </div>
+    </>
   );
 }

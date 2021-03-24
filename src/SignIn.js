@@ -53,20 +53,3 @@ return (
     </>
   );
 }
-
-// <div className="login">
-//   <div className="realLogin">
-//   Username<input type="text" id="Lusername"></input>
-//   Password<input type="text" id="Lpassword"></input>
-//   {signupIsClicked &&
-//   <div className="signupButton">
-//   last Name<input type="text" id="last"></input>
-//   first Name <input type="text" id="first"></input>
-//   Username<input type="text" id="username"></input>
-//   Password<input type="text" id="password"></input>
-//     <button onClick={handleSignIn}>Sign up</button>
-//   </div>}
-//       <button onClick={handleLogin}>Login</button>
-//       {!signupIsClicked && <button onClick={showSignup} className="signupButton">Sign Up</button>}
-//   </div>
-// </div>
