@@ -1,6 +1,7 @@
 import {useState, useEffect} from 'react'
 import Book from './Book';
 import axios from 'axios'
+import Focus from './Focus'
 
 export default function BookList({user, newUpload}) {
     const [bookList, setBookList] = useState([])
@@ -8,7 +9,6 @@ export default function BookList({user, newUpload}) {
     const [focusedBook, setFocusedBook] = useState({})
 
     useEffect(()=>{
-        console.log(user)
         async function call () {
             const books = await axios.get(`${process.env.REACT_APP_URL}/${user}/books`)
             const temp = []
@@ -21,21 +21,11 @@ export default function BookList({user, newUpload}) {
     }, [newUpload, user, focused])
     
     useEffect(()=>{
-        console.log(focused)
-        console.log(focusedBook);
     }, [focusedBook, focused])
 
     return (
         <>
-        {focused && 
-        <div className="focus">
-            <img src={focusedBook.imageLinks.thumbnail} alt="current book"/>
-            <div><b>Title:</b> {focusedBook.title}</div>
-            <div><b>Author:</b> {focusedBook.authors[0]}</div>
-            <div><b>Description:</b> {focusedBook.description}
-            </div>
-        </div>
-        }
+        {focused && <Focus focusedBook={focusedBook} user={user} focused={focused} setFocused={setFocused}/>}
         <div className="bookList">
             {bookList}
         </div>
