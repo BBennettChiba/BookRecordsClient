@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState} from "react";
 import axios from "axios";
 import BarcodeScannerComponent from 'react-webcam-barcode-scanner';
 
@@ -22,6 +22,7 @@ export default function Scan({ user, newUpload, setNewUpload }) {
         book: isbn,
       })
       setNewUpload(!newUpload);
+      setVideoIsShown(false)
     }
   }
 

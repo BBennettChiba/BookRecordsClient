@@ -8,6 +8,7 @@ export default function BookList({user, newUpload}) {
     const [focusedBook, setFocusedBook] = useState({})
 
     useEffect(()=>{
+        console.log(user)
         async function call () {
             const books = await axios.get(`${process.env.REACT_APP_URL}/${user}/books`)
             const temp = []
