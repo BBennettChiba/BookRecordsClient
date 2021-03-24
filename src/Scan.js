@@ -1,11 +1,14 @@
-import BarcodeScannerComponent from "react-webcam-barcode-scanner";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
+import BarcodeScannerComponent from 'react-webcam-barcode-scanner';
 
 export default function Scan({ user, newUpload, setNewUpload }) {
   const [videoIsShown, setVideoIsShown] = useState(false);
-  
+  const [ data, setData ] = useState(null);
+
+
   async function successfulRead(err, result) {
+    if(result === undefined) return 
     if (result !== undefined && result.text.length === 13) {
       const isbn = result.text;
       if (!isRealISBN(isbn)) return;
@@ -43,13 +46,11 @@ export default function Scan({ user, newUpload, setNewUpload }) {
       >
         SCAN
       </button>
-      {videoIsShown && (
-        <BarcodeScannerComponent
-          width={200}
-          height={200}
-          onUpdate={successfulRead}
-        />
-      )}
+      {videoIsShown && <BarcodeScannerComponent
+        width={200}
+        height={200}
+        onUpdate={successfulRead}
+      />}
     </div>
   );
 }
