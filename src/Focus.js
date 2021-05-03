@@ -2,14 +2,14 @@ import axios from "axios";
 import {useState} from "react";
 
 export default function Focus({focusedBook, user, setFocused, focused}) {
-    const [showFullDes, setShowFullDes] = useState(null)
+    const [showFullDes, setShowFullDes] = useState(null);
     const deleteThisBook = async ()=> {
         try {
             console.log(focusedBook);
-            await axios.delete(`${process.env.REACT_APP_URL}/${user}/book`, {data: {user, book:focusedBook.industryIdentifiers[1].identifier}})
-            setFocused(!focused)
+            await axios.delete(`${process.env.REACT_APP_URL}/${user}/book`, {data: {user, book:focusedBook.industryIdentifiers[1].identifier}});
+            setFocused(!focused);
         } catch(err){
-            console.log(err)
+            console.log(err);
         }
     }
   return (
